@@ -174,7 +174,7 @@
    const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
  
    // Construct the message body
-   let requestBody = {
+   let request_Body = {
      'recipient': {
        'id': senderPsid
      },
@@ -186,8 +186,8 @@
      'uri': 'https://graph.facebook.com/v2.6/me/messages',
      'qs': { 'access_token': PAGE_ACCESS_TOKEN },
      'method': 'POST',
-     'json': requestBody
-   }, (err, _res, _body) => {
+     'json': request_Body
+   }, (err, res, body) => {
      if (!err) {
         console.log('page access token',PAGE_ACCESS_TOKEN);
         console.log('Message sent!');
