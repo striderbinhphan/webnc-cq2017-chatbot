@@ -189,9 +189,10 @@
      'json': requestBody
    }, (err, _res, _body) => {
      if (!err) {
-       console.log('Message sent!');
+        console.log('page access token',PAGE_ACCESS_TOKEN);
+        console.log('Message sent!');
      } else {
-       console.error('Unable to send message:' + err);
+        console.error('Unable to send message:' + err);
      }
    });
  }
