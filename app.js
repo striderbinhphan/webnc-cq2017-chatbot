@@ -110,11 +110,14 @@
  
    // Checks if the message contains text
    if (receivedMessage.text) {
+       console.log("joining to message . text");
      // Create the payload for a basic text message, which
      // will be added to the body of your request to the Send API
      response = {
-       'text': `You sent the message: '${receivedMessage.text}'. Now send me an attachment!`
+       'text': `You sent the message: '${receivedMessage.text}'. Now send me an attachment!!!!!!!`
      };
+     console.log("response mmessage", response);
+
    } else if (receivedMessage.attachments) {
  
      // Get the URL of the message attachment
@@ -174,7 +177,7 @@
    const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
  
    // Construct the message body
-   let request_Body = {
+   let requestBody = {
      'recipient': {
        'id': senderPsid
      },
@@ -186,7 +189,7 @@
      'uri': 'https://graph.facebook.com/v2.6/me/messages',
      'qs': { 'access_token': PAGE_ACCESS_TOKEN },
      'method': 'POST',
-     'json': request_Body
+     'json': requestBody
    }, (err, res, body) => {
      if (!err) {
         console.log('page access token',PAGE_ACCESS_TOKEN);
