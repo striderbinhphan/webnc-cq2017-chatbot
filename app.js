@@ -211,10 +211,10 @@ async function handlePostback(senderPsid, receivedPostback) {
       ]
     }
   }
-  else if (payload === 'xemchitiet') {
-    response = { 'text' : 'Nhập tên khóa học cần xem:' };
-  }
-  else if (payload === 'mobilecourses') {
+  // else if (payload === 'xemchitiet') {
+  //   response = { 'text' : 'Nhập tên khóa học cần xem:' };
+  // }
+  if (payload === 'mobilecourses') {
     response = {
       'attachment': {
         'type': 'template',
@@ -238,6 +238,7 @@ async function handlePostback(senderPsid, receivedPostback) {
           //     {
           //       'type': 'postback',
           //       'title': 'xem chi tiết!',
+
           //       'payload': 'courseId2',
           //     }
           //   ],
@@ -247,7 +248,7 @@ async function handlePostback(senderPsid, receivedPostback) {
       }
     };
   }
-  else if (payload === 'webcourses') {
+  if (payload === 'webcourses') {
     response = {
       "attachments": [
         {
