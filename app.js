@@ -236,6 +236,7 @@ function callSendAPI(senderPsid, response) {
   }, (err, _res, _body) => {
     if (!err) {
       console.log('Message sent!');
+      console.log (requestBody);
     } else {
       console.error('Unable to send message:' + err);
     }
@@ -246,3 +247,4 @@ function callSendAPI(senderPsid, response) {
 var listener = app.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
