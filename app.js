@@ -206,7 +206,7 @@ async function handlePostback(senderPsid, receivedPostback) {
             'subtitle': 'Tap a button to answer.',
             // 'image_url': attachmentUrl,
             'buttons': res.data.map(c=>
-              ({
+              ({ 
                 'type': 'postback',
                 'title': `${c.category_name}`,
                 'payload': `${c.category_name}`,
@@ -254,7 +254,7 @@ function callSendAPI(senderPsid, response) {
     'recipient': {
       'id': senderPsid
     },
-    'message': response
+    'message': JSON.stringify(response)
   };
 
   // Send the HTTP request to the Messenger Platform
