@@ -231,17 +231,18 @@ async function handlePostback(senderPsid, receivedPostback) {
               }
             ],
           },
-          {
-            'title': 'course 2',
-            // 'image_url': attachmentUrl,
-            'buttons': [
-              {
-                'type': 'postback',
-                'title': 'xem chi tiết!',
-                'payload': 'courseId2',
-              }
-            ],
-          }]
+          // {
+          //   'title': 'course 2',
+          //   // 'image_url': attachmentUrl,
+          //   'buttons': [
+          //     {
+          //       'type': 'postback',
+          //       'title': 'xem chi tiết!',
+          //       'payload': 'courseId2',
+          //     }
+          //   ],
+          // }
+        ]
         }
       }
     };
