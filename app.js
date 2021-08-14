@@ -194,11 +194,14 @@ function handlePostback(senderPsid, receivedPostback) {
   // Set the response based on the postback payload
   switch (payload) {
     case 'timkiem':
-      return response = { 'text' : 'Nhập tên khóa học cần tìm:' };
+      response = { 'text' : 'Nhập tên khóa học cần tìm:' };
+      return;
     case 'xemdanhmuc':
-      return response = { 'text' : 'Nhập danh mục cần tìm:' };
+      response = { 'text' : 'Nhập danh mục cần tìm:' };
+      return;
     case 'xemchitiet':
-      return response = { 'text' : 'Nhập tên khóa học cần xem:' };
+      response = { 'text' : 'Nhập tên khóa học cần xem:' };
+      return;
   }
 
 
