@@ -26,6 +26,7 @@ require('dotenv').config();
 const
   request = require('request'),
   express = require('express'),
+  axios = require('axios'),
   { urlencoded, json } = require('body-parser'),
   app = express();
 
@@ -124,25 +125,22 @@ function handleMessage(senderPsid, receivedMessage) {
                 'buttons': [
                   {
                     'type': 'postback',
-                    'title': 'Tìm kiếm khóa học theo tên',
+                    'title': 'Tìm kiếm khóa học',
                     'payload': 'timkiem',
                   },
                   {
                     'type': 'postback',
-                    'title': 'Xem khóa học theo danh mục',
-                    'payload': 'xemdanhmuc',
-                  },
-                  {
-                    'type': 'postback',
-                    'title': 'Xem chi tiết khóa học',
-                    'payload': 'xemchitiet',
+                    'title': 'Xem danh mục khóa học',
+                    'payload': 'Xem danh mục khóa học',
                   }
                 ],
               }]
             }
           }
-        };
-      
+        };   
+    }
+    else if (receivedMessage) {
+
     }
 
 
@@ -185,7 +183,7 @@ function handleMessage(senderPsid, receivedMessage) {
 }
 
 // Handles messaging_postbacks events
-function handlePostback(senderPsid, receivedPostback) {
+async function handlePostback(senderPsid, receivedPostback) {
   let response;
 
   // Get the payload for the postback
@@ -194,10 +192,29 @@ function handlePostback(senderPsid, receivedPostback) {
   // Set the response based on the postback payload
 
   if (payload === 'timkiem') {
-    response = { 'text' : 'Nhập tên khóa học cần tìm:' };  
+    response = { 'text' : 'Vui lòng nhập theo cú pháp: timkiem_tên khóa học:' };  
   }
-  if (payload === 'xemdanhmuc') {
-    response = { 'text' : 'Nhập danh mục cần tìm:' };  
+  if (payload === 'Xem danh mục khóa học') {
+    const categories = await axios.get('https://webncchatbotbct.herokuapp.com/category/all');
+    response = {
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'generic',
+          'elements': [{
+            'title': 'Chọn danh mục',
+            'subtitle': 'Tap a button to answer.',
+            // 'image_url': attachmentUrl,
+            'buttons': categories.map(c=>
+              ({
+                'type': 'postback',
+                'title': `${c.category_name}`,
+                'payload': `${c.category_name}`,
+              }))
+          }]
+        }
+      }
+    }; 
   }
   else if (payload === 'xemchitiet') {
     response = { 'text' : 'Nhập tên khóa học cần xem:' };
@@ -260,4 +277,3 @@ function callSendAPI(senderPsid, response) {
 var listener = app.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
-
