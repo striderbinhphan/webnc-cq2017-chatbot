@@ -91,8 +91,12 @@ app.post('/webhook', (req, res) => {
       // pass the event to the appropriate handler function
       if (webhookEvent.message) {
         handleMessage(senderPsid, webhookEvent.message);
-      } else if (webhookEvent.postback) {
-        handlePostback(senderPsid, webhookEvent.postback);
+      } 
+      else if (webhookEvent.quick_reply) {
+        handleQuickReply(sendPsid, webhookEvent.quick_reply);
+      }
+      else if (webhookEvent.postback) {
+        handlePostback(senderPsid, webhookEvent.postback); 
       }
     });
 
@@ -194,6 +198,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   if (payload === 'timkiem') {
     response = { 'text' : 'Vui lòng nhập theo cú pháp: timkiem_tên khóa học:' };  
   }
+
   if (payload === 'Xem danh mục khóa học') {
     const res = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
     response = {
@@ -296,6 +301,81 @@ async function handlePostback(senderPsid, receivedPostback) {
   } else if (payload === 'no') {
     response = { 'text': 'Oops, try sending another image.' };
   }
+  // Send the message to acknowledge the postback
+  callSendAPI(senderPsid, response);
+}
+
+// Handles messaging_postbacks events
+async function handleQuickReply(senderPsid, receivedQuickReply) {
+  let response;
+
+  // Get the payload for the postback
+  let payload = receivedQuickReply.payload;
+
+  if (payload === 'mobilecourses') {
+    response = {
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'generic',
+          'elements': [{
+            'title': 'course1',
+            // 'image_url': attachmentUrl,
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'xem chi tiết',
+                'payload': 'courseId1',
+              }
+            ],
+          },
+          // {
+          //   'title': 'course 2',
+          //   // 'image_url': attachmentUrl,
+          //   'buttons': [
+          //     {
+          //       'type': 'postback',
+          //       'title': 'xem chi tiết!',
+
+          //       'payload': 'courseId2',
+          //     }
+          //   ],
+          // }
+        ]
+        }
+      }
+    };
+  }
+  if (payload === 'webcourses') {
+    response = {
+      "attachments": [
+        {
+          "type": "template",
+          "payload": {
+            "product":{
+             "elements":[ // multiple elements for Hscroll
+               {
+                 "id":"2",
+                 "retailer_id":"<EXTERNAL_ID>",
+                //  "image_url":"https://fb.cdn.com/sdsd",
+                 "title":"Some product title",
+                 "subtitle": "$40",
+               },
+               {
+                "id":"1",
+                "retailer_id":"<EXTERNAL_ID>",
+                // "image_url":"https://fb.cdn.com/sdsd",
+                "title":"Some product title",
+                "subtitle": "$40",
+               }
+             ]
+          }
+        }
+      }]
+    }
+  }
+
+
   // Send the message to acknowledge the postback
   callSendAPI(senderPsid, response);
 }
