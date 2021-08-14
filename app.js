@@ -209,7 +209,7 @@ async function handlePostback(senderPsid, receivedPostback) {
               ({ 
                 'type': 'postback',
                 'title': `${c.category_name}`,
-                'payload': `${c.category_name}`,
+                'payload': `${c.category_id}`,
               }))
           }]
         }
