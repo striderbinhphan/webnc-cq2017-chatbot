@@ -192,19 +192,30 @@ function handlePostback(senderPsid, receivedPostback) {
   let payload = receivedPostback.payload;
 
   // Set the response based on the postback payload
-  switch (payload) {
-    case 'timkiem':
-      response = { 'text' : 'Nhập tên khóa học cần tìm:' };
-      return;
-    case 'xemdanhmuc':
-      response = { 'text' : 'Nhập danh mục cần tìm:' };
-      return;
-    case 'xemchitiet':
-      response = { 'text' : 'Nhập tên khóa học cần xem:' };
-      return;
+
+  if (payload === 'timkiem') {
+    response = { 'text' : 'Nhập tên khóa học cần tìm:' };  
+  }
+  if (payload === 'xemdanhmuc') {
+    response = { 'text' : 'Nhập danh mục cần tìm:' };  
+  }
+  else if (payload === 'xemchitiet') {
+    response = { 'text' : 'Nhập tên khóa học cần xem:' };
   }
 
 
+
+  // switch (payload) {
+  //   case 'timkiem':
+  //     response = { 'text' : 'Nhập tên khóa học cần tìm:' };
+  //     return;
+  //   case 'xemdanhmuc':
+  //     response = { 'text' : 'Nhập danh mục cần tìm:' };
+  //     return;
+  //   case 'xemchitiet':
+  //     response = { 'text' : 'Nhập tên khóa học cần xem:' };
+  //     return;
+  // }
 
   if (payload === 'yes') {
     response = { 'text': 'Thanks!' };
