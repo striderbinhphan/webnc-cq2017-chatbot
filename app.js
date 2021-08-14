@@ -197,24 +197,52 @@ async function handlePostback(senderPsid, receivedPostback) {
   if (payload === 'Xem danh mục khóa học') {
     const res = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
     response = {
-      "text": "Pick a color:",
+      "text": "Chọn danh mục:",
       "quick_replies":[
         {
           "content_type":"text",
-          "title":"Red",
-          "payload":"<POSTBACK_PAYLOAD>",
-          "image_url":"http://example.com/img/red.png"
+          "title":"Mobile courses",
+          "payload":"mobilecourses",
         },{
           "content_type":"text",
-          "title":"Green",
-          "payload":"<POSTBACK_PAYLOAD>",
-          "image_url":"http://example.com/img/green.png"
+          "title":"Web courses",
+          "payload":"webcourses",
         }
       ]
     }
   }
   else if (payload === 'xemchitiet') {
     response = { 'text' : 'Nhập tên khóa học cần xem:' };
+  }
+  else if (payload === 'mobilecourses') {
+  }
+  else if (payload === 'webcourses') {
+    response = {
+      "attachments": [
+        {
+          "type": "template",
+          "payload": {
+            "product":{
+             "elements":[ // multiple elements for Hscroll
+               {
+                 "id":"2",
+                 "retailer_id":"<EXTERNAL_ID>",
+                 "image_url":"https://fb.cdn.com/sdsd",
+                 "title":"Some product title",
+                 "subtitle": "$40",
+               },
+               {
+                "id":"1",
+                "retailer_id":"<EXTERNAL_ID>",
+                "image_url":"https://fb.cdn.com/sdsd",
+                "title":"Some product title",
+                "subtitle": "$40",
+               }
+             ]
+          }
+        }
+      ]
+    }
   }
 
 
@@ -231,7 +259,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   //     return;
   // }
 
-  if (payload === 'yes') {
+  if (payload === '') {
     response = { 'text': 'Thanks!' };
   } else if (payload === 'no') {
     response = { 'text': 'Oops, try sending another image.' };
