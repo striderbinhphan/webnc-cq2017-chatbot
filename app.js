@@ -92,9 +92,9 @@ app.post('/webhook', (req, res) => {
       if (webhookEvent.message) {
         handleMessage(senderPsid, webhookEvent.message);
       } 
-      else if (webhookEvent.quick_reply) {
-        handleQuickReply(sendPsid, webhookEvent.quick_reply);
-      }
+      // else if (webhookEvent.quick_reply) {
+      //   handleQuickReply(sendPsid, webhookEvent.quick_reply);
+      // }
       else if (webhookEvent.postback) {
         handlePostback(senderPsid, webhookEvent.postback); 
       }
@@ -143,9 +143,71 @@ function handleMessage(senderPsid, receivedMessage) {
           }
         };   
     }
-    else if (receivedMessage) {
+    // Get the payload for the postback
+  let payload = receivedMessage.quick_reply.payload;
 
+  if (payload === 'mobilecourses') {
+    response = {
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'generic',
+          'elements': [{
+            'title': 'course1',
+            // 'image_url': attachmentUrl,
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'xem chi tiết',
+                'payload': 'courseId1',
+              }
+            ],
+          },
+          // {
+          //   'title': 'course 2',
+          //   // 'image_url': attachmentUrl,
+          //   'buttons': [
+          //     {
+          //       'type': 'postback',
+          //       'title': 'xem chi tiết!',
+
+          //       'payload': 'courseId2',
+          //     }
+          //   ],
+          // }
+        ]
+        }
+      }
+    };
+  }
+  if (payload === 'webcourses') {
+    response = {
+      "attachments": [
+        {
+          "type": "template",
+          "payload": {
+            "product":{
+             "elements":[ // multiple elements for Hscroll
+               {
+                 "id":"2",
+                 "retailer_id":"<EXTERNAL_ID>",
+                //  "image_url":"https://fb.cdn.com/sdsd",
+                 "title":"Some product title",
+                 "subtitle": "$40",
+               },
+               {
+                "id":"1",
+                "retailer_id":"<EXTERNAL_ID>",
+                // "image_url":"https://fb.cdn.com/sdsd",
+                "title":"Some product title",
+                "subtitle": "$40",
+               }
+             ]
+          }
+        }
+      }]
     }
+  }
 
 
     // response = {
@@ -305,80 +367,6 @@ async function handlePostback(senderPsid, receivedPostback) {
   callSendAPI(senderPsid, response);
 }
 
-// Handles messaging_postbacks events
-async function handleQuickReply(senderPsid, receivedQuickReply) {
-  let response;
-
-  // Get the payload for the postback
-  let payload = receivedQuickReply.payload;
-
-  if (payload === 'mobilecourses') {
-    response = {
-      'attachment': {
-        'type': 'template',
-        'payload': {
-          'template_type': 'generic',
-          'elements': [{
-            'title': 'course1',
-            // 'image_url': attachmentUrl,
-            'buttons': [
-              {
-                'type': 'postback',
-                'title': 'xem chi tiết',
-                'payload': 'courseId1',
-              }
-            ],
-          },
-          // {
-          //   'title': 'course 2',
-          //   // 'image_url': attachmentUrl,
-          //   'buttons': [
-          //     {
-          //       'type': 'postback',
-          //       'title': 'xem chi tiết!',
-
-          //       'payload': 'courseId2',
-          //     }
-          //   ],
-          // }
-        ]
-        }
-      }
-    };
-  }
-  if (payload === 'webcourses') {
-    response = {
-      "attachments": [
-        {
-          "type": "template",
-          "payload": {
-            "product":{
-             "elements":[ // multiple elements for Hscroll
-               {
-                 "id":"2",
-                 "retailer_id":"<EXTERNAL_ID>",
-                //  "image_url":"https://fb.cdn.com/sdsd",
-                 "title":"Some product title",
-                 "subtitle": "$40",
-               },
-               {
-                "id":"1",
-                "retailer_id":"<EXTERNAL_ID>",
-                // "image_url":"https://fb.cdn.com/sdsd",
-                "title":"Some product title",
-                "subtitle": "$40",
-               }
-             ]
-          }
-        }
-      }]
-    }
-  }
-
-
-  // Send the message to acknowledge the postback
-  callSendAPI(senderPsid, response);
-}
 
 // Sends response messages via the Send API
 function callSendAPI(senderPsid, response) {
