@@ -195,7 +195,7 @@ async function handlePostback(senderPsid, receivedPostback) {
     response = { 'text' : 'Vui lòng nhập theo cú pháp: timkiem_tên khóa học:' };  
   }
   if (payload === 'Xem danh mục khóa học') {
-    const categories = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
+    const res = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
     response = {
       'attachment': {
         'type': 'template',
@@ -205,7 +205,7 @@ async function handlePostback(senderPsid, receivedPostback) {
             'title': 'Chọn danh mục',
             'subtitle': 'Tap a button to answer.',
             // 'image_url': attachmentUrl,
-            'buttons': categories.map(c=>
+            'buttons': res.data.map(c=>
               ({
                 'type': 'postback',
                 'title': `${c.category_name}`,
