@@ -215,6 +215,36 @@ async function handlePostback(senderPsid, receivedPostback) {
     response = { 'text' : 'Nhập tên khóa học cần xem:' };
   }
   else if (payload === 'mobilecourses') {
+    response = {
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'generic',
+          'elements': [{
+            'title': 'course1',
+            // 'image_url': attachmentUrl,
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'xem chi tiết',
+                'payload': 'courseId1',
+              }
+            ],
+          },
+          {
+            'title': 'course 2',
+            // 'image_url': attachmentUrl,
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'xem chi tiết!',
+                'payload': 'courseId2',
+              }
+            ],
+          }]
+        }
+      }
+    };
   }
   else if (payload === 'webcourses') {
     response = {
@@ -227,14 +257,14 @@ async function handlePostback(senderPsid, receivedPostback) {
                {
                  "id":"2",
                  "retailer_id":"<EXTERNAL_ID>",
-                 "image_url":"https://fb.cdn.com/sdsd",
+                //  "image_url":"https://fb.cdn.com/sdsd",
                  "title":"Some product title",
                  "subtitle": "$40",
                },
                {
                 "id":"1",
                 "retailer_id":"<EXTERNAL_ID>",
-                "image_url":"https://fb.cdn.com/sdsd",
+                // "image_url":"https://fb.cdn.com/sdsd",
                 "title":"Some product title",
                 "subtitle": "$40",
                }
