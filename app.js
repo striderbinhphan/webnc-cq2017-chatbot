@@ -112,9 +112,8 @@ function handleMessage(senderPsid, receivedMessage) {
   if (receivedMessage.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of your request to the Send
-    switch(receivedMessage.text) {
-      case 'hello':
-        return response = {
+    if(receivedMessage.text === 'hello') {
+        response = {
           'attachment': {
             'type': 'template',
             'payload': {
