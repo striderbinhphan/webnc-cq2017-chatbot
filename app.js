@@ -241,7 +241,7 @@ async function handlePostback(senderPsid, receivedPostback) {
              ]
           }
         }
-      ]
+      }]
     }
   }
 
