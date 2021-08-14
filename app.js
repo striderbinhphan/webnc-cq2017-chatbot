@@ -109,7 +109,7 @@ function handleMessage(senderPsid, receivedMessage) {
   let response;
 
   // Checks if the message contains text
-  if (receividMessage.text === "hello") {
+  if (receivedMessage.text === "hello") {
     response = {
       'text': 'Test'
     };
