@@ -205,12 +205,16 @@ async function handlePostback(senderPsid, receivedPostback) {
             'title': 'Chọn danh mục',
             'subtitle': 'Tap a button to answer.',
             // 'image_url': attachmentUrl,
-            'buttons': res.data.map(c=>
-              ({ 
-                'type': 'postback',
-                'title': `${c.category_name}`,
-                'payload': `${c.category_id}`,
-              }))
+            'buttons': [{ 
+              'type': 'postback',
+              'title': `Mobile`,
+              'payload': `na`,
+            },
+            { 
+              'type': 'postback',
+              'title': `Web`,
+              'payload': `na`,
+            }]
           }]
         }
       }
