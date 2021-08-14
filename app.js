@@ -197,43 +197,21 @@ async function handlePostback(senderPsid, receivedPostback) {
   if (payload === 'Xem danh mục khóa học') {
     const res = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
     response = {
-      'attachment': {
-        'type': 'template',
-        'payload': {
-          'template_type': 'generic',
-          'elements': [{
-            'title': 'Chọn danh mục',
-            'subtitle': 'Tap a button to answer.',
-            // 'image_url': attachmentUrl,
-            'buttons': [{ 
-              'type': 'postback',
-              'title': `Mobile`,
-              'payload': `na`,
-            },
-            { 
-              'type': 'postback',
-              'title': `Web1`,
-              'payload': `na`,
-            },
-            { 
-              'type': 'postback',
-              'title': `Web2`,
-              'payload': `na`,
-            },
-            { 
-              'type': 'postback',
-              'title': `Web3`,
-              'payload': `na`,
-            },
-            { 
-              'type': 'postback',
-              'title': `Web`,
-              'payload': `na`,
-            }]
-          }]
+      "text": "Pick a color:",
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Red",
+          "payload":"<POSTBACK_PAYLOAD>",
+          "image_url":"http://example.com/img/red.png"
+        },{
+          "content_type":"text",
+          "title":"Green",
+          "payload":"<POSTBACK_PAYLOAD>",
+          "image_url":"http://example.com/img/green.png"
         }
-      }
-    }; 
+      ]
+    }
   }
   else if (payload === 'xemchitiet') {
     response = { 'text' : 'Nhập tên khóa học cần xem:' };
