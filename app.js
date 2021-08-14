@@ -212,6 +212,21 @@ async function handlePostback(senderPsid, receivedPostback) {
             },
             { 
               'type': 'postback',
+              'title': `Web1`,
+              'payload': `na`,
+            },
+            { 
+              'type': 'postback',
+              'title': `Web2`,
+              'payload': `na`,
+            },
+            { 
+              'type': 'postback',
+              'title': `Web3`,
+              'payload': `na`,
+            },
+            { 
+              'type': 'postback',
               'title': `Web`,
               'payload': `na`,
             }]
