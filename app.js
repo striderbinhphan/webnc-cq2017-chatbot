@@ -37,7 +37,7 @@ app.use(json());
 
 // Respond with 'Hello World' when a GET request is made to the homepage
 app.get('/', function (_req, res) {
-  res.send('Hello World');
+  res.send('Hello !!');
 });
 
 // Adds support for GET requests to our webhook
@@ -109,6 +109,11 @@ function handleMessage(senderPsid, receivedMessage) {
   let response;
 
   // Checks if the message contains text
+  if (receividMessage.text === "hello") {
+    response = {
+      'text': 'Test'
+    };
+  }
   if (receivedMessage.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of your request to the Send API
