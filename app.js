@@ -109,47 +109,77 @@ function handleMessage(senderPsid, receivedMessage) {
   let response;
 
   // Checks if the message contains text
-  if (receivedMessage.text === "hello") {
+  if (receivedMessage.text) {
+    // Create the payload for a basic text message, which
+    // will be added to the body of your request to the Send
+    switch(receivedMessage.Text) {
+      case 'hello':
+        return response = {
+          'attachment': {
+            'type': 'template',
+            'payload': {
+              'template_type': 'generic',
+              'elements': [{
+                'title': 'Chọn tính năng',
+                'subtitle': 'Tap a button to answer.',
+                'buttons': [
+                  {
+                    'type': 'postback',
+                    'title': 'Tìm kiếm khóa học theo tên',
+                    'payload': 'timkiem',
+                  },
+                  {
+                    'type': 'postback',
+                    'title': 'Xem khóa học theo danh mục',
+                    'payload': 'xemdanhmuc',
+                  },
+                  {
+                    'type': 'postback',
+                    'title': 'Xem chi tiết khóa học',
+                    'payload': 'xemchitiet',
+                  }
+                ],
+              }]
+            }
+          }
+        };
+      
+    }
+
+
+    // response = {
+    //   'text': `You sent the message: '${receivedMessage.text}'. Now send me an attachment!`
+    // };
+  } else if (receivedMessage.attachments) {
+
+    // Get the URL of the message attachment
+    let attachmentUrl = receivedMessage.attachments[0].payload.url;
     response = {
-      'text': 'Test'
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'generic',
+          'elements': [{
+            'title': 'Is this the right picture?',
+            'subtitle': 'Tap a button to answer.',
+            'image_url': attachmentUrl,
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'Yes!',
+                'payload': 'yes',
+              },
+              {
+                'type': 'postback',
+                'title': 'No!',
+                'payload': 'no',
+              }
+            ],
+          }]
+        }
+      }
     };
   }
-  // if (receivedMessage.text) {
-  //   // Create the payload for a basic text message, which
-  //   // will be added to the body of your request to the Send API
-  //   response = {
-  //     'text': `You sent the message: '${receivedMessage.text}'. Now send me an attachment!`
-  //   };
-  // } else if (receivedMessage.attachments) {
-
-  //   // Get the URL of the message attachment
-  //   let attachmentUrl = receivedMessage.attachments[0].payload.url;
-  //   response = {
-  //     'attachment': {
-  //       'type': 'template',
-  //       'payload': {
-  //         'template_type': 'generic',
-  //         'elements': [{
-  //           'title': 'Is this the right picture?',
-  //           'subtitle': 'Tap a button to answer.',
-  //           'image_url': attachmentUrl,
-  //           'buttons': [
-  //             {
-  //               'type': 'postback',
-  //               'title': 'Yes!',
-  //               'payload': 'yes',
-  //             },
-  //             {
-  //               'type': 'postback',
-  //               'title': 'No!',
-  //               'payload': 'no',
-  //             }
-  //           ],
-  //         }]
-  //       }
-  //     }
-  //   };
-  //}
 
   // Send the response message
   callSendAPI(senderPsid, response);
@@ -163,6 +193,17 @@ function handlePostback(senderPsid, receivedPostback) {
   let payload = receivedPostback.payload;
 
   // Set the response based on the postback payload
+  switch (payload) {
+    case 'timkiem':
+      return response = { 'text' : 'Nhập tên khóa học cần tìm:' };
+    case 'xemdanhmuc':
+      return response = { 'text' : 'Nhập danh mục cần tìm:' };
+    case 'xemchitiet':
+      return response = { 'text' : 'Nhập tên khóa học cần xem:' };
+  }
+
+
+
   if (payload === 'yes') {
     response = { 'text': 'Thanks!' };
   } else if (payload === 'no') {
