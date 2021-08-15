@@ -152,7 +152,7 @@ async function handleMessage(senderPsid, receivedMessage) {
         
         res.data.map(async c=>{
           if(c.category_name === payload){
-            const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/category/${c.category_id}`);
+            const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/category/${c.category_id}`);
             response = {
               'attachment': {
                 'type': 'template',
@@ -174,7 +174,7 @@ async function handleMessage(senderPsid, receivedMessage) {
             }
           };//end response
         });
-        
+
         if (payload === 'mobilecourses') {
           response = {
             'attachment': {
