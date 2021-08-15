@@ -277,17 +277,23 @@ async function handlePostback(senderPsid, receivedPostback) {
     const res = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
     response = {
       "text": "Chọn danh mục:",
-      "quick_replies":[
-        {
+      "quick_replies": res.data.map(c=>({
           "content_type":"text",
-          "title":"Mobile courses",
-          "payload":"mobilecourses",
-        },{
-          "content_type":"text",
-          "title":"Web courses",
-          "payload":"webcourses",
-        }
-      ]
+          "title":`${c.category_name}`,
+          "payload":`${c.category_name}`,
+        })
+      )
+      // [
+      //   {
+      //     "content_type":"text",
+      //     "title":"Mobile courses",
+      //     "payload":"mobilecourses",
+      //   },{
+      //     "content_type":"text",
+      //     "title":"Web courses",
+      //     "payload":"webcourses",
+      //   }
+      // ]
     }
   }
 
