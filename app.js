@@ -154,7 +154,7 @@ function handleMessage(senderPsid, receivedMessage) {
           'template_type': 'generic',
           'elements': [{
             'title': 'course1',
-            // 'image_url': attachmentUrl,
+             'image_url': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQqzR8_zcLO54mYQnQWtWuvFIztdFs75A_sg&usqp=CAU",
             'buttons': [
               {
                 'type': 'postback',
@@ -163,18 +163,30 @@ function handleMessage(senderPsid, receivedMessage) {
               }
             ],
           },
-          // {
-          //   'title': 'course 2',
-          //   // 'image_url': attachmentUrl,
-          //   'buttons': [
-          //     {
-          //       'type': 'postback',
-          //       'title': 'xem chi tiết!',
+          {
+            'title': 'course 2',
+             'image_url': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQqzR8_zcLO54mYQnQWtWuvFIztdFs75A_sg&usqp=CAU",
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'xem chi tiết!',
 
-          //       'payload': 'courseId2',
-          //     }
-          //   ],
-          // }
+                'payload': 'courseId2',
+              }
+            ],
+          },
+          {
+            'title': 'course 3',
+            'image_url': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQqzR8_zcLO54mYQnQWtWuvFIztdFs75A_sg&usqp=CAU",
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'xem chi tiết!',
+
+                'payload': 'courseId2',
+              }
+            ],
+          }
         ]
         }
       }
@@ -278,85 +290,6 @@ async function handlePostback(senderPsid, receivedPostback) {
       ]
     }
   }
-  // else if (payload === 'xemchitiet') {
-  //   response = { 'text' : 'Nhập tên khóa học cần xem:' };
-  // }
-  if (payload === 'mobilecourses') {
-    response = {
-      'attachment': {
-        'type': 'template',
-        'payload': {
-          'template_type': 'generic',
-          'elements': [{
-            'title': 'course1',
-            // 'image_url': attachmentUrl,
-            'buttons': [
-              {
-                'type': 'postback',
-                'title': 'xem chi tiết',
-                'payload': 'courseId1',
-              }
-            ],
-          },
-          // {
-          //   'title': 'course 2',
-          //   // 'image_url': attachmentUrl,
-          //   'buttons': [
-          //     {
-          //       'type': 'postback',
-          //       'title': 'xem chi tiết!',
-
-          //       'payload': 'courseId2',
-          //     }
-          //   ],
-          // }
-        ]
-        }
-      }
-    };
-  }
-  if (payload === 'webcourses') {
-    response = {
-      "attachments": [
-        {
-          "type": "template",
-          "payload": {
-            "product":{
-             "elements":[ // multiple elements for Hscroll
-               {
-                 "id":"2",
-                 "retailer_id":"<EXTERNAL_ID>",
-                //  "image_url":"https://fb.cdn.com/sdsd",
-                 "title":"Some product title",
-                 "subtitle": "$40",
-               },
-               {
-                "id":"1",
-                "retailer_id":"<EXTERNAL_ID>",
-                // "image_url":"https://fb.cdn.com/sdsd",
-                "title":"Some product title",
-                "subtitle": "$40",
-               }
-             ]
-          }
-        }
-      }]
-    }
-  }
-
-
-
-  // switch (payload) {
-  //   case 'timkiem':
-  //     response = { 'text' : 'Nhập tên khóa học cần tìm:' };
-  //     return;
-  //   case 'xemdanhmuc':
-  //     response = { 'text' : 'Nhập danh mục cần tìm:' };
-  //     return;
-  //   case 'xemchitiet':
-  //     response = { 'text' : 'Nhập tên khóa học cần xem:' };
-  //     return;
-  // }
 
   if (payload === '') {
     response = { 'text': 'Thanks!' };
