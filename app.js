@@ -148,7 +148,7 @@ function handleMessage(senderPsid, receivedMessage) {
   const res = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
 
   
-  res.data.map(c=>{
+  res.data.map(async c=>{
     if(c.category_name === payload){
       const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/category/${c.category_id}`);
       response = {
