@@ -14,4 +14,30 @@ async function load(){
 
 }
 
-load()
+// load()
+
+async function load2(){
+    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/category/1`);
+      response = {
+        'attachment': {
+          'type': 'template',
+          'payload': {
+            'template_type': 'generic',
+            'elements': res.data.map(course=>(
+              {
+              'title': `${course.course_name}`,
+              'image_url': `${course.course_image}`,
+              'buttons': [
+                {
+                  'type': 'postback',
+                  'title': 'xem chi tiết',
+                  'payload': `${course.course_name}`,
+                }]
+              }))
+          }
+       }
+      }
+    console.log(response.attachment.payload.elements)
+
+}
+load2()

@@ -145,7 +145,36 @@ function handleMessage(senderPsid, receivedMessage) {
     }
     // Get the payload for the postback
   let payload = receivedMessage.quick_reply.payload;
+  const res = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
 
+  
+  res.data.map(c=>{
+    if(c.category_name === payload){
+      const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/category/${c.category_id}`);
+      response = {
+        'attachment': {
+          'type': 'template',
+          'payload': {
+            'template_type': 'generic',
+            'elements': res.data.map(course=>(
+              {
+              'title': `${course.course_name}`,
+              'image_url': `${course.course_image}`,
+              'buttons': [
+                {
+                  'type': 'postback',
+                  'title': 'xem chi tiết',
+                  'payload': `${course.course_name}`,
+                }]
+              }))
+          }
+       }
+      }
+    };//end response
+  });
+
+
+  
   if (payload === 'mobilecourses') {
     response = {
       'attachment': {
@@ -283,17 +312,6 @@ async function handlePostback(senderPsid, receivedPostback) {
           "payload":`${c.category_name}`,
         })
       )
-      // [
-      //   {
-      //     "content_type":"text",
-      //     "title":"Mobile courses",
-      //     "payload":"mobilecourses",
-      //   },{
-      //     "content_type":"text",
-      //     "title":"Web courses",
-      //     "payload":"webcourses",
-      //   }
-      // ]
     }
   }
 
