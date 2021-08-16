@@ -252,13 +252,7 @@ async function handlePostback(senderPsid, receivedPostback) {
           {
             'title': `Created by ${getLecturerRes.data.username} is ${getLecturerRes.data.description}`,
             'subtitle': `${getLecturerRes.data.organization}`,
-            'buttons': [
-              {
-                'type': 'postback',
-                'title': 'View Lecturer Info',
-                'payload': `viewlecturer_lecturer_id_${getLecturerRes.data.userId}`,
-              }
-            ],
+            'image_url': `https://onlinecourse-be.herokuapp.com/uploads/profile/${getLecturerRes.data.image}`,
           },
           {
             'title': `Has ${res.data.totalReview} reviews`,
@@ -280,7 +274,7 @@ async function handlePostback(senderPsid, receivedPostback) {
 
   //show all sections detail
   if(payload.includes("viewsections_course_id_")){
-    //videoId = payload[payload.length-1]
+    //courseId = payload[payload.length-1]
     const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/${payload[payload.length-1]}`);
     console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
     response = {
@@ -290,6 +284,7 @@ async function handlePostback(senderPsid, receivedPostback) {
           'template_type': 'generic',
           'elements': [{
             'title': `Course content of ${res.data.course_name}`,
+            'subtitle': `Has ${res.data.sections.length} sections`,
             'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${res.data.course_image}`,
           },res.data.sections.map(s=>({
             'title': `This course has ${s.section_title} sections`,
@@ -322,6 +317,7 @@ async function handlePostback(senderPsid, receivedPostback) {
           'template_type': 'generic',
           'elements': res.data.map(v=>({
             'title': `${v.video_title}`,
+            'subtitle':`Preview Status:${v.preview_status===1?"True":"False"}`,
             'buttons': [
               {
                 'type': 'postback',
@@ -351,7 +347,28 @@ async function handlePostback(senderPsid, receivedPostback) {
     console.log("response dta", response);
 
   }//end if viewvideo_course_id_
+  
+  //show all feedback by courseId
+  if(payload.includes("viewcomments_course_id_")){
+    //courseId = payload[payload.length-1]
+    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/reviews/${payload[payload.length-1]}`);
+    console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
+    response = {
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'generic',
+          'elements': res.data.map(r=>({
+            'title': `User: ${r.userFullName}`,
+            'subtitle': `Feedback: ${r.review_feedback} Rating: ${r.review_rating} `,
+            'image_url': `https://onlinecourse-be.herokuapp.com/uploads/profile/${r.userImage}`,
+          }))
+        }
+      }
+    };//end response
+    console.log("response dta", response);
 
+  }//end if viewsection_course_id_
   // Send the message to acknowledge the postback
   callSendAPI(senderPsid, response);
 }
