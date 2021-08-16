@@ -305,14 +305,7 @@ async function handlePostback(senderPsid, receivedPostback) {
                 }
               ]        
             }
-          ],
-           "buttons": [
-            {
-              "title": "View More",
-              "type": "postback",
-              "payload": "payload"            
-            }
-          ]  
+          ]
         }
       }
     }//end response
