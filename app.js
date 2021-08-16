@@ -261,11 +261,10 @@ async function handlePostback(senderPsid, receivedPostback) {
           'elements': [{
             'title': `${res.data.course_name}`,
             'subtitle': `${res.data.course_shortdescription}`,
-            'image_url': `${res.data.course_image}`,
+            'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${res.data.course_image}`,
           },
           {
-            'title': 'This is course description',
-            'subtitle': `${res.data.course_description}`,
+            'title': `Description: ${res.data.course_description}`,
           },
           {
             'title': `This course has ${res.data.sections.length} sections`,
@@ -274,7 +273,7 @@ async function handlePostback(senderPsid, receivedPostback) {
               {
                 'type': 'postback',
                 'title': 'View all sections',
-                'payload': `viewsection_course_id_${res.data.course_id}`,
+                'payload': `viewsections_course_id_${res.data.course_id}`,
               }
             ],
           },
@@ -290,7 +289,7 @@ async function handlePostback(senderPsid, receivedPostback) {
             ],
           },
           {
-            'title': `Has ${res.data.totalReview} `,
+            'title': `Has ${res.data.totalReview} reviews`,
             'subtitle': `with rating ${res.data.averageRating}`,
             'buttons': [
               {
@@ -306,6 +305,66 @@ async function handlePostback(senderPsid, receivedPostback) {
     console.log("response dta", response);
 
   }//end if course id view
+
+  //show all sections detail
+  if(payload.includes("viewsections_course_id_")){
+    //videoId = payload[payload.length-1]
+    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/${payload[payload.length-1]}`);
+    console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
+    response = {
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'generic',
+          'elements': [{
+            'title': `Course content of ${res.data.course_name}`,
+            'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${res.data.course_image}`,
+          },res.data.sections.map(s=>({
+            'title': `This course has ${s.section_title} sections`,
+            'subtitle': `Has ${s.videos.length} videos. Tap to see!!!`,
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'View all videos',
+                'payload': `viewvideos_course_id_${s.section_id}`,
+              }
+            ],
+          }))
+          ]//end elements
+        }
+      }
+    };//end response
+    console.log("response dta", response);
+
+  }//end if viewsection_course_id_
+
+  //show all videos of sectionid detail
+  if(payload.includes("viewvideos_course_id_")){
+    //sectionId = payload[payload.length-1]
+    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/${payload[payload.length-1]}`);
+    console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
+    response = {
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'generic',
+          'elements': res.data.sections[parseInt(payload[payload.length-1])].map(v=>({
+            'title': `${v.video_title}`,
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'View this video',
+                'payload': `viewvideodetail_course_id_${v.video_id}`,
+              }
+            ],
+          }))//end map
+        }
+      }
+    };//end response
+    console.log("response dta", response);
+
+  }//end if viewvideo_course_id_
+
   // Send the message to acknowledge the postback
   callSendAPI(senderPsid, response);
 }
