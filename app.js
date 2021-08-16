@@ -286,7 +286,7 @@ async function handlePostback(senderPsid, receivedPostback) {
             'title': `Course content of ${res.data.course_name}`,
             'subtitle': `Has ${res.data.sections.length} sections`,
             'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${res.data.course_image}`,
-          },res.data.sections.map(s=>({
+          },...res.data.sections.map(s=>({
             'title': `This course has ${s.section_title} sections`,
             'subtitle': `Has ${s.videos.length} videos. Tap to see!!!`,
             'buttons': [
