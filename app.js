@@ -148,26 +148,30 @@ async function handleMessage(senderPsid, receivedMessage) {
       const myArr = receivedMessage.text.split("_");
       const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/query?search=${myArr[myArr.length-1]}`);
       console.log(` data`,res.data);
-      response = {
-        'attachment': {
-          'type': 'template',
-          'payload': {
-            'template_type': 'generic',
-            'elements': res.data.result.map(course=>(
-              {
-              'title': `${course.course_name}`,
-              'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${course.course_image}`,
-              'buttons': [
+      if(res.data.result.length!==0){
+        response = {
+          'attachment': {
+            'type': 'template',
+            'payload': {
+              'template_type': 'generic',
+              'elements': res.data.result.map(course=>(
                 {
-                  'type': 'postback',
-                  'title': 'Xem khóa học',
-                  'payload': `course_id_${course.course_id}`,
-                }]
-              }))
+                'title': `${course.course_name}`,
+                'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${course.course_image}`,
+                'buttons': [
+                  {
+                    'type': 'postback',
+                    'title': 'Xem khóa học',
+                    'payload': `course_id_${course.course_id}`,
+                  }]
+                }))
+            }
           }
-        }
-      }//end response
-      console.log("response dta", response);
+        }//end response
+        console.log("response dta", response);
+      }else{
+        response = { 'text': 'No search found' };
+      }
       //https://onlinecourse-be.herokuapp.com/courses/query?search=
       //const myArr = str.split("_");
       // document.getElementById("demo").innerHTML = myArr[myArr.length-1]; 
