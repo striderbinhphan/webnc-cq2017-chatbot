@@ -257,7 +257,6 @@ async function handlePostback(senderPsid, receivedPostback) {
         "type": "template",
         "payload": {
           "template_type": "generic",
-          "top_element_style": "compact",
           "elements": [
             {
               "title": "Classic T-Shirt Collection",
