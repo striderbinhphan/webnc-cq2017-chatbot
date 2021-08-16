@@ -251,77 +251,52 @@ async function handlePostback(senderPsid, receivedPostback) {
   //show course detail
   if(payload.includes("course_id_")){
     const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/${payload[payload.length-1]}`);
-    console.log(`category id = ${payload[payload.length-1]} data`,res.data);
+    const getLecturerRes = await  axios.get(`https://onlinecourse-be.herokuapp.com/users/lecturer/${res.data.user_id}`);
+    console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
     response = {
       'attachment': {
         'type': 'template',
         'payload': {
           'template_type': 'generic',
           'elements': [{
-            'title': 'Is this the right picture?',
-            'subtitle': 'Tap a button to answer.',
-            'image_url': "https://softwarewithstyle.com/wp-content/uploads/2021/03/web-design.jpg",
+            'title': `${res.data.course_name}`,
+            'subtitle': `${res.data.course_shortdescription}`,
+            'image_url': `${res.data.course_image}`,
+          },
+          {
+            'title': 'This is course description',
+            'subtitle': `${res.data.course_description}`,
+          },
+          {
+            'title': `This course has ${res.data.sections.length} sections`,
+            'subtitle': 'Tap a button to view this course sections.',
             'buttons': [
               {
                 'type': 'postback',
-                'title': 'Yes!',
-                'payload': 'yes',
-              },
-              {
-                'type': 'postback',
-                'title': 'No!',
-                'payload': 'no',
+                'title': 'View all sections',
+                'payload': `viewsection_course_id_${res.data.course_id}`,
               }
             ],
           },
           {
-            'title': 'Is this the right picture?',
-            'subtitle': 'Tap a button to answer.',
-            'image_url': "https://softwarewithstyle.com/wp-content/uploads/2021/03/web-design.jpg",
+            'title': `Created by ${getLecturerRes.data.username} is ${getLecturerRes.data.description}`,
+            'subtitle': `${getLecturerRes.data.organization}`,
             'buttons': [
               {
                 'type': 'postback',
-                'title': 'Yes!',
-                'payload': 'yes',
-              },
-              {
-                'type': 'postback',
-                'title': 'No!',
-                'payload': 'no',
+                'title': 'View Lecturer Info',
+                'payload': `viewlecturer_course_id_${res.data.course_id}`,
               }
             ],
           },
           {
-            'title': 'Is this the right picture?',
-            'subtitle': 'Tap a button to answer.',
-            'image_url': "https://softwarewithstyle.com/wp-content/uploads/2021/03/web-design.jpg",
+            'title': `Has ${res.data.totalReview} `,
+            'subtitle': `with rating ${res.data.averageRating}`,
             'buttons': [
               {
                 'type': 'postback',
-                'title': 'Yes!',
-                'payload': 'yes',
-              },
-              {
-                'type': 'postback',
-                'title': 'No!',
-                'payload': 'no',
-              }
-            ],
-          },
-          {
-            'title': 'Is this the right picture?',
-            'subtitle': 'Tap a button to answer.',
-            'image_url': "https://softwarewithstyle.com/wp-content/uploads/2021/03/web-design.jpg",
-            'buttons': [
-              {
-                'type': 'postback',
-                'title': 'Yes!',
-                'payload': 'yes',
-              },
-              {
-                'type': 'postback',
-                'title': 'No!',
-                'payload': 'no',
+                'title': 'View feedback',
+                'payload': `viewcomments_course_id_${res.data.course_id}`,
               }
             ],
           }]
