@@ -37,7 +37,8 @@ async function load2(){
           }
        }
       }
-    console.log(response.attachment.payload.elements)
+      console.log(res.data);
+    console.log(response.attachment.payload.elements[0].buttons)
 
 }
 load2()

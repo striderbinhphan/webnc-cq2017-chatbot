@@ -147,109 +147,36 @@ async function handleMessage(senderPsid, receivedMessage) {
     if(receivedMessage.quick_reply){
       // Get the payload for the postback
         let payload = receivedMessage.quick_reply.payload;
-        const res = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
-
-        
-        res.data.map(async c=>{
-          if(c.category_name === payload){
-            const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/category/${c.category_id}`);
-            response = {
-              'attachment': {
-                'type': 'template',
-                'payload': {
-                  'template_type': 'generic',
-                  'elements': res.data.map(course=>(
-                    {
-                    'title': `${course.course_name}`,
-                    'image_url': `${course.course_image}`,
-                    'buttons': [
-                      {
-                        'type': 'postback',
-                        'title': 'xem chi tiết',
-                        'payload': `${course.course_name}`,
-                      }]
-                    }))
-                }
-            }
-            }
-          };//end response
-        });
-
-        if (payload === 'mobilecourses') {
+        console.log(payload)
+        if(payload.includes("category_id_")){
+          const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/category/${payload[payload.length-1]}`);
+          console.log(`category id = ${payload[payload.length-1]} data`,res.data);
           response = {
             'attachment': {
               'type': 'template',
               'payload': {
                 'template_type': 'generic',
-                'elements': [{
-                  'title': 'course1',
-                   'image_url': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQqzR8_zcLO54mYQnQWtWuvFIztdFs75A_sg&usqp=CAU",
+                'elements': res.data.map(course=>(
+                  {
+                  'title': `${course.course_name}`,
+                  'image_url': `${course.course_image}`,
                   'buttons': [
                     {
                       'type': 'postback',
                       'title': 'xem chi tiết',
-                      'payload': 'courseId1',
-                    }
-                  ],
-                },
-                {
-                  'title': 'course 2',
-                   'image_url': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQqzR8_zcLO54mYQnQWtWuvFIztdFs75A_sg&usqp=CAU",
-                  'buttons': [
-                    {
-                      'type': 'postback',
-                      'title': 'xem chi tiết!',
-      
-                      'payload': 'courseId2',
-                    }
-                  ],
-                },
-                {
-                  'title': 'course 3',
-                  'image_url': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQqzR8_zcLO54mYQnQWtWuvFIztdFs75A_sg&usqp=CAU",
-                  'buttons': [
-                    {
-                      'type': 'postback',
-                      'title': 'xem chi tiết!',
-      
-                      'payload': 'courseId2',
-                    }
-                  ],
-                }
-              ]
+                      'payload': `course_id_${course.course_id}`,
+                    }]
+                  }))
               }
             }
-          };
+          }//end response
+          console.log("response dta", response);
+
         }
-        if (payload === 'webcourses') {
-          response = {
-            "attachments": [
-              {
-                "type": "template",
-                "payload": {
-                  "product":{
-                   "elements":[ // multiple elements for Hscroll
-                     {
-                       "id":"2",
-                       "retailer_id":"<EXTERNAL_ID>",
-                      //  "image_url":"https://fb.cdn.com/sdsd",
-                       "title":"Some product title",
-                       "subtitle": "$40",
-                     },
-                     {
-                      "id":"1",
-                      "retailer_id":"<EXTERNAL_ID>",
-                      // "image_url":"https://fb.cdn.com/sdsd",
-                      "title":"Some product title",
-                      "subtitle": "$40",
-                     }
-                   ]
-                }
-              }
-            }]
-          }
-        }
+
+
     }
+    //endquickreply if
 
 
   
@@ -314,17 +241,12 @@ async function handlePostback(senderPsid, receivedPostback) {
       "quick_replies": res.data.map(c=>({
           "content_type":"text",
           "title":`${c.category_name}`,
-          "payload":`${c.category_name}`,
+          "payload":`category_id_${c.category_id}`,
         })
       )
     }
   }
 
-  if (payload === '') {
-    response = { 'text': 'Thanks!' };
-  } else if (payload === 'no') {
-    response = { 'text': 'Oops, try sending another image.' };
-  }
   // Send the message to acknowledge the postback
   callSendAPI(senderPsid, response);
 }
