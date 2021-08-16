@@ -326,7 +326,7 @@ async function handlePostback(senderPsid, receivedPostback) {
               {
                 'type': 'postback',
                 'title': 'View all videos',
-                'payload': `viewvideos_course_id_${s.section_id}`,
+                'payload': `viewvideos_section_id_${s.section_id}`,
               }
             ],
           }))
@@ -339,26 +339,42 @@ async function handlePostback(senderPsid, receivedPostback) {
   }//end if viewsection_course_id_
 
   //show all videos of sectionid detail
-  if(payload.includes("viewvideos_course_id_")){
+  if(payload.includes("viewvideos_section_id_")){
     //sectionId = payload[payload.length-1]
-    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/${payload[payload.length-1]}`);
-    console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
+    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/videos/sections/${payload[payload.length-1]}`);
+    console.log(`viewvideos_section_id_ id = ${payload[payload.length-1]} data`,res.data);
     response = {
       'attachment': {
         'type': 'template',
         'payload': {
           'template_type': 'generic',
-          'elements': res.data.sections[parseInt(payload[payload.length-1])].map(v=>({
+          'elements': res.data.map(v=>({
             'title': `${v.video_title}`,
             'buttons': [
               {
                 'type': 'postback',
                 'title': 'View this video',
-                'payload': `viewvideodetail_course_id_${v.video_id}`,
+                'payload': `viewvideo_video_id_${v.video_id}`,
               }
             ],
           }))//end map
         }
+      }
+    };//end response
+    console.log("response dta", response);
+
+  }//end if viewvideo_course_id_
+
+  //show all videos of sectionid detail
+  if(payload.includes("viewvideo_video_id_")){
+    //videoId = payload[payload.length-1]
+    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/videos/${payload[payload.length-1]}`);
+    console.log(`viewvideos_section_id_ id = ${payload[payload.length-1]} data`,res.data);
+    response = {
+      "type": "video",
+      "payload": {
+        "title":`${res.data.video_title}`,
+        "url": `https://onlinecourse-be.herokuapp.com/uploads/videos/${res.data.video_path}`
       }
     };//end response
     console.log("response dta", response);
