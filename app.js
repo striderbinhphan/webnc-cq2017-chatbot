@@ -153,7 +153,7 @@ async function handleMessage(senderPsid, receivedMessage) {
           'type': 'template',
           'payload': {
             'template_type': 'generic',
-            'elements': res.data.map(course=>(
+            'elements': res.data.result.map(course=>(
               {
               'title': `${course.course_name}`,
               'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${course.course_image}`,
