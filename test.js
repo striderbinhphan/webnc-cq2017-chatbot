@@ -67,4 +67,13 @@ async function getCourseDetail(){
   console.log("response.attachment.payload.elements[0].buttons")
 
 }
-getCourseDetail()
+
+async function timkiem(){
+  let text = "timkiem_learning";
+  const myArr = text.split("_");
+  const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/query?search=${myArr[myArr.length-1]}`);
+  console.log(`category id =  data`,res.data);
+ 
+
+}
+timkiem()

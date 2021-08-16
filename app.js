@@ -145,9 +145,9 @@ async function handleMessage(senderPsid, receivedMessage) {
         
     }
     if(receivedMessage.text.includes('timkiem')) {
-      const myArr = str.split("_");
+      const myArr = receivedMessage.text.split("_");
       const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/query?search=${myArr[myArr.length-1]}`);
-      console.log(`category id = ${payload[payload.length-1]} data`,res.data);
+      console.log(` data`,res.data);
       response = {
         'attachment': {
           'type': 'template',
@@ -369,11 +369,17 @@ async function handlePostback(senderPsid, receivedPostback) {
     const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/videos/${payload[payload.length-1]}`);
     console.log(`viewvideos_section_id_ id = ${payload[payload.length-1]} data`,res.data);
     response = {
-      "type": "video",
+      "type": "template",
       "payload": {
-        "url": `https://onlinecourse-be.herokuapp.com/uploads/videos/${res.data.video_path}`
+         "template_type": "media",
+         "elements": [
+            {
+               "media_type": "video",
+               "url": `https://onlinecourse-be.herokuapp.com/uploads/videos/${res.data.video_path}`
+            }
+         ]
       }
-    };//end response
+    }//end response
     console.log("response dta", response);
 
   }//end if viewvideo_course_id_
