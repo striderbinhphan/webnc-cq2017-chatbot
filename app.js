@@ -264,7 +264,8 @@ async function handlePostback(senderPsid, receivedPostback) {
         'payload': {
           'template_type': 'generic',
           'elements': [{
-            'title': `${res.data.course_name}`,
+            'title': `${res.data.course_name}
+            Price:${res.data.price},SaleOff:${res.data.saleoff}`,
             'subtitle': `${res.data.course_shortdescription}`,
             'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${res.data.course_image}`,
           },
