@@ -252,13 +252,39 @@ async function handlePostback(senderPsid, receivedPostback) {
   if(payload.includes("course_id_")){
     const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/${payload[payload.length-1]}`);
     console.log(`category id = ${payload[payload.length-1]} data`,res.data);
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "list",
-          "top_element_style": "compact",
-          "elements": [
+    response = 
+    {
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'list',
+          'elements': [{
+            'title': 'Is this the right picture?',
+            'subtitle': 'Tap a button to answer.',
+            'image_url': attachmentUrl,
+            'buttons': [
+              {
+                'type': 'postback',
+                'title': 'Yes!',
+                'payload': 'yes',
+              },
+              {
+                'type': 'postback',
+                'title': 'No!',
+                'payload': 'no',
+              }
+            ],
+          }]
+        }
+      }
+    };
+    // {
+    //   "attachment": {
+    //     "type": "template",
+    //     "payload": {
+    //       "template_type": "list",
+    //       "top_element_style": "compact",
+    //       "elements": [
             // {
             //   "title": "Classic T-Shirt Collection",
             //   "subtitle": "See all our colors",
@@ -306,17 +332,17 @@ async function handlePostback(senderPsid, receivedPostback) {
             //     }
             //   ]        
             // }
-          ],
-           "buttons": [
-            {
-              "title": "View More",
-              "type": "postback",
-              "payload": "payload"            
-            }
-          ]  
-        }
-      }
-    }//end response
+    //       ],
+    //        "buttons": [
+    //         {
+    //           "title": "View More",
+    //           "type": "postback",
+    //           "payload": "payload"            
+    //         }
+    //       ]  
+    //     }
+    //   }
+    // }//end response
     console.log("response dta", response);
 
   }//end if course id view
