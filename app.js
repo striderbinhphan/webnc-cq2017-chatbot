@@ -142,7 +142,37 @@ async function handleMessage(senderPsid, receivedMessage) {
             }
           }
         };   
+        
     }
+    if(receivedMessage.text.includes('timkiem')) {
+      const myArr = str.split("_");
+      const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/query?search=${myArr[myArr.length-1]}`);
+      console.log(`category id = ${payload[payload.length-1]} data`,res.data);
+      response = {
+        'attachment': {
+          'type': 'template',
+          'payload': {
+            'template_type': 'generic',
+            'elements': res.data.map(course=>(
+              {
+              'title': `${course.course_name}`,
+              'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${course.course_image}`,
+              'buttons': [
+                {
+                  'type': 'postback',
+                  'title': 'Xem khóa học',
+                  'payload': `course_id_${course.course_id}`,
+                }]
+              }))
+          }
+        }
+      }//end response
+      console.log("response dta", response);
+      //https://onlinecourse-be.herokuapp.com/courses/query?search=
+      //const myArr = str.split("_");
+      // document.getElementById("demo").innerHTML = myArr[myArr.length-1]; 
+      
+    }//endif timkiem
 
     if(receivedMessage.quick_reply){
       // Get the payload for the postback
@@ -292,7 +322,7 @@ async function handlePostback(senderPsid, receivedPostback) {
             'buttons': [
               {
                 'type': 'postback',
-                'title': 'View all videos',
+                'title': 'This section videos',
                 'payload': `viewvideos_section_id_${s.section_id}`,
               }
             ],
@@ -308,7 +338,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   //show all videos of sectionid detail
   if(payload.includes("viewvideos_section_id_")){
     //sectionId = payload[payload.length-1]
-    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/videos/sections/${payload[payload.length-1]}`);
+    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/videos/section/${payload[payload.length-1]}`);
     console.log(`viewvideos_section_id_ id = ${payload[payload.length-1]} data`,res.data);
     response = {
       'attachment': {
