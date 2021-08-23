@@ -144,7 +144,7 @@ async function handleMessage(senderPsid, receivedMessage) {
         };   
         
     }
-    if(receivedMessage.text.includes('timkiem')) {
+    if(receivedMessage.text.includes('timkiem_')&&"timkiem_".length < receivedMessage.text.length) {
       const myArr = receivedMessage.text.split("_");
       const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/query?search=${myArr[myArr.length-1]}`);
       console.log(` data`,res.data);
@@ -182,9 +182,10 @@ async function handleMessage(senderPsid, receivedMessage) {
       // Get the payload for the postback
         let payload = receivedMessage.quick_reply.payload;
         console.log(payload)
-        if(payload.includes("category_id_")){
-          const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/category/${payload[payload.length-1]}`);
-          console.log(`category id = ${payload[payload.length-1]} data`,res.data);
+        if(payload.includes("category_id_") && "category_id_".length<payload.length){
+          const myArr = payload.split("_");
+          const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/category/${myArr[myArr.length-1]}`);
+          console.log(`category id = ${myArr[myArr.length-1]} data`,res.data);
           response = {
             'attachment': {
               'type': 'template',
@@ -254,10 +255,11 @@ async function handlePostback(senderPsid, receivedPostback) {
     }
   }
   //show course detail
-  if(payload.includes("course_id_")){
-    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/${payload[payload.length-1]}`);
+  if(payload.includes("course_id_" && "course_id_".length<payload.length)){
+    const myArr = payload.split("_");
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/${myArr[myArr.length-1]}`);
     const getLecturerRes = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/users/lecturer/${res.data.user_id}`);
-    console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
+    console.log(`courses id = ${myArr[myArr.length-1]} data`,res.data);
     response = {
       'attachment': {
         'type': 'template',
@@ -308,10 +310,11 @@ async function handlePostback(senderPsid, receivedPostback) {
   }//end if course id view
 
   //show all sections detail
-  if(payload.includes("viewsections_course_id_")){
+  if(payload.includes("viewsections_course_id_" && "viewsections_course_id_".length<payload.length)){
+    const myArr = payload.split("_");
     //courseId = payload[payload.length-1]
-    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/${payload[payload.length-1]}`);
-    console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/${myArr[myArr.length-1]}`);
+    console.log(`courses id = ${myArr[myArr.length-1]} data`,res.data);
     response = {
       'attachment': {
         'type': 'template',
@@ -341,9 +344,10 @@ async function handlePostback(senderPsid, receivedPostback) {
   }//end if viewsection_course_id_
 
   //show all videos of sectionid detail
-  if(payload.includes("viewvideos_section_id_")){
+  if(payload.includes("viewvideos_section_id_" && "viewvideos_section_id_".length<payload.length)){
+    const myArr = payload.split("_");
     //sectionId = payload[payload.length-1]
-    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/videos/section/${payload[payload.length-1]}`);
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/videos/section/${myArr[myArr.length-1]}`);
     console.log(`viewvideos_section_id_ id = ${payload[payload.length-1]} data`,res.data);
     response = {
       'attachment': {
@@ -369,10 +373,11 @@ async function handlePostback(senderPsid, receivedPostback) {
   }//end if viewvideo_course_id_
 
   //show all videos of sectionid detail
-  if(payload.includes("viewvideo_video_id_")){
+  if(payload.includes("viewvideo_video_id_" && "viewvideo_video_id_".length<payload.length)){
+    const myArr = payload.split("_");
     //videoId = payload[payload.length-1]
-    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/videos/${payload[payload.length-1]}`);
-    console.log(`viewvideos_section_id_ id = ${payload[payload.length-1]} data`,res.data);
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/videos/${myArr[myArr.length-1]}`);
+    console.log(`viewvideos_section_id_ id = ${myArr[myArr.length-1]} data`,res.data);
     response = {
       "type": "template",
       "payload": {
@@ -390,10 +395,11 @@ async function handlePostback(senderPsid, receivedPostback) {
   }//end if viewvideo_course_id_
   
   //show all feedback by courseId
-  if(payload.includes("viewcomments_course_id_")){
+  if(payload.includes("viewcomments_course_id_" && "viewcomments_course_id_".length<payload.length)){
+    const myArr = payload.split("_");
     //courseId = payload[payload.length-1]
-    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/reviews/${payload[payload.length-1]}`);
-    console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/reviews/${myArr[myArr.length-1]}`);
+    console.log(`courses id = ${myArr[myArr.length-1]} data`,res.data);
     response = {
       'attachment': {
         'type': 'template',
