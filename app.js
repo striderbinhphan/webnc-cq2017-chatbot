@@ -287,7 +287,7 @@ async function handlePostback(senderPsid, receivedPostback) {
           {
             'title': `Created by ${getLecturerRes.data.username} is ${getLecturerRes.data.description}`,
             'subtitle': `${getLecturerRes.data.organization}`,
-            'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/profile/${getLecturerRes.data.image}`,
+            'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/profile/${getLecturerRes.data.image?getLecturerRes.data.image:"profile.png"}`,
           },
           {
             'title': `Has ${res.data.totalReview} reviews`,
@@ -402,7 +402,7 @@ async function handlePostback(senderPsid, receivedPostback) {
           'elements': res.data.map(r=>({
             'title': `User: ${r.userFullName}`,
             'subtitle': `Feedback: ${r.review_feedback} Rating: ${r.review_rating} `,
-            'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/profile/${r.userImage}`,
+            'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/profile/${r.userImage?r.userImage:"profile.png"}`,
           }))
         }
       }
