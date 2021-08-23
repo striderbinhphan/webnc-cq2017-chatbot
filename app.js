@@ -146,7 +146,7 @@ async function handleMessage(senderPsid, receivedMessage) {
     }
     if(receivedMessage.text.includes('timkiem')) {
       const myArr = receivedMessage.text.split("_");
-      const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/query?search=${myArr[myArr.length-1]}`);
+      const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/query?search=${myArr[myArr.length-1]}`);
       console.log(` data`,res.data);
       if(res.data.result.length!==0){
         response = {
@@ -157,7 +157,7 @@ async function handleMessage(senderPsid, receivedMessage) {
               'elements': res.data.result.map(course=>(
                 {
                 'title': `${course.course_name}`,
-                'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${course.course_image}`,
+                'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/images/${course.course_image}`,
                 'buttons': [
                   {
                     'type': 'postback',
@@ -172,7 +172,7 @@ async function handleMessage(senderPsid, receivedMessage) {
       }else{
         response = { 'text': 'No search found' };
       }
-      //https://onlinecourse-be.herokuapp.com/courses/query?search=
+      //https://bct-onlinecourses-be.herokuapp.com/courses/query?search=
       //const myArr = str.split("_");
       // document.getElementById("demo").innerHTML = myArr[myArr.length-1]; 
       
@@ -183,7 +183,7 @@ async function handleMessage(senderPsid, receivedMessage) {
         let payload = receivedMessage.quick_reply.payload;
         console.log(payload)
         if(payload.includes("category_id_")){
-          const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/category/${payload[payload.length-1]}`);
+          const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/category/${payload[payload.length-1]}`);
           console.log(`category id = ${payload[payload.length-1]} data`,res.data);
           response = {
             'attachment': {
@@ -193,7 +193,7 @@ async function handleMessage(senderPsid, receivedMessage) {
                 'elements': res.data.map(course=>(
                   {
                   'title': `${course.course_name}`,
-                  'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${course.course_image}`,
+                  'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/images/${course.course_image}`,
                   'buttons': [
                     {
                       'type': 'postback',
@@ -242,7 +242,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   }
 
   if (payload === 'Xem danh mục khóa học') {
-    const res = await axios.get('https://onlinecourse-be.herokuapp.com/category/all');
+    const res = await axios.get('https://bct-onlinecourses-be.herokuapp.com/category/all');
     response = {
       "text": "Chọn danh mục:",
       "quick_replies": res.data.map(c=>({
@@ -255,8 +255,8 @@ async function handlePostback(senderPsid, receivedPostback) {
   }
   //show course detail
   if(payload.includes("course_id_")){
-    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/${payload[payload.length-1]}`);
-    const getLecturerRes = await  axios.get(`https://onlinecourse-be.herokuapp.com/users/lecturer/${res.data.user_id}`);
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/${payload[payload.length-1]}`);
+    const getLecturerRes = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/users/lecturer/${res.data.user_id}`);
     console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
     response = {
       'attachment': {
@@ -267,7 +267,7 @@ async function handlePostback(senderPsid, receivedPostback) {
             'title': `${res.data.course_name}
             Price:${res.data.price},SaleOff:${res.data.saleoff}`,
             'subtitle': `${res.data.course_shortdescription}`,
-            'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${res.data.course_image}`,
+            'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/images/${res.data.course_image}`,
           },
           {
             'title': 'Course description',
@@ -287,7 +287,7 @@ async function handlePostback(senderPsid, receivedPostback) {
           {
             'title': `Created by ${getLecturerRes.data.username} is ${getLecturerRes.data.description}`,
             'subtitle': `${getLecturerRes.data.organization}`,
-            'image_url': `https://onlinecourse-be.herokuapp.com/uploads/profile/${getLecturerRes.data.image}`,
+            'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/profile/${getLecturerRes.data.image}`,
           },
           {
             'title': `Has ${res.data.totalReview} reviews`,
@@ -310,7 +310,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   //show all sections detail
   if(payload.includes("viewsections_course_id_")){
     //courseId = payload[payload.length-1]
-    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/courses/${payload[payload.length-1]}`);
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/${payload[payload.length-1]}`);
     console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
     response = {
       'attachment': {
@@ -320,7 +320,7 @@ async function handlePostback(senderPsid, receivedPostback) {
           'elements': [{
             'title': `Course content of ${res.data.course_name}`,
             'subtitle': `Has ${res.data.sections.length} sections`,
-            'image_url': `https://onlinecourse-be.herokuapp.com/uploads/images/${res.data.course_image}`,
+            'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/images/${res.data.course_image}`,
           },...res.data.sections.map(s=>({
             'title': `This course has ${s.section_title} sections`,
             'subtitle': `Has ${s.videos.length} videos. Tap to see!!!`,
@@ -343,7 +343,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   //show all videos of sectionid detail
   if(payload.includes("viewvideos_section_id_")){
     //sectionId = payload[payload.length-1]
-    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/videos/section/${payload[payload.length-1]}`);
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/videos/section/${payload[payload.length-1]}`);
     console.log(`viewvideos_section_id_ id = ${payload[payload.length-1]} data`,res.data);
     response = {
       'attachment': {
@@ -371,7 +371,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   //show all videos of sectionid detail
   if(payload.includes("viewvideo_video_id_")){
     //videoId = payload[payload.length-1]
-    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/videos/${payload[payload.length-1]}`);
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/videos/${payload[payload.length-1]}`);
     console.log(`viewvideos_section_id_ id = ${payload[payload.length-1]} data`,res.data);
     response = {
       "type": "template",
@@ -380,7 +380,7 @@ async function handlePostback(senderPsid, receivedPostback) {
          "elements": [
             {
                "media_type": "video",
-               "url": `https://onlinecourse-be.herokuapp.com/uploads/videos/${res.data.video_path}`
+               "url": `https://bct-onlinecourses-be.herokuapp.com/uploads/videos/${res.data.video_path}`
             }
          ]
       }
@@ -392,7 +392,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   //show all feedback by courseId
   if(payload.includes("viewcomments_course_id_")){
     //courseId = payload[payload.length-1]
-    const res = await  axios.get(`https://onlinecourse-be.herokuapp.com/reviews/${payload[payload.length-1]}`);
+    const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/reviews/${payload[payload.length-1]}`);
     console.log(`courses id = ${payload[payload.length-1]} data`,res.data);
     response = {
       'attachment': {
@@ -402,7 +402,7 @@ async function handlePostback(senderPsid, receivedPostback) {
           'elements': res.data.map(r=>({
             'title': `User: ${r.userFullName}`,
             'subtitle': `Feedback: ${r.review_feedback} Rating: ${r.review_rating} `,
-            'image_url': `https://onlinecourse-be.herokuapp.com/uploads/profile/${r.userImage}`,
+            'image_url': `https://bct-onlinecourses-be.herokuapp.com/uploads/profile/${r.userImage}`,
           }))
         }
       }
