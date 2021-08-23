@@ -255,7 +255,7 @@ async function handlePostback(senderPsid, receivedPostback) {
     }
   }
   //show course detail
-  if(payload.includes("course_id_" && "course_id_".length<payload.length)){
+  if(payload.includes("course_id_")){
     const myArr = payload.split("_");
     const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/${myArr[myArr.length-1]}`);
     const getLecturerRes = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/users/lecturer/${res.data.user_id}`);
@@ -310,7 +310,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   }//end if course id view
 
   //show all sections detail
-  if(payload.includes("viewsections_course_id_" && "viewsections_course_id_".length<payload.length)){
+  if(payload.includes("viewsections_course_id_" )){
     const myArr = payload.split("_");
     //courseId = payload[payload.length-1]
     const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/courses/${myArr[myArr.length-1]}`);
@@ -344,7 +344,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   }//end if viewsection_course_id_
 
   //show all videos of sectionid detail
-  if(payload.includes("viewvideos_section_id_" && "viewvideos_section_id_".length<payload.length)){
+  if(payload.includes("viewvideos_section_id_" )){
     const myArr = payload.split("_");
     //sectionId = payload[payload.length-1]
     const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/videos/section/${myArr[myArr.length-1]}`);
@@ -373,7 +373,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   }//end if viewvideo_course_id_
 
   //show all videos of sectionid detail
-  if(payload.includes("viewvideo_video_id_" && "viewvideo_video_id_".length<payload.length)){
+  if(payload.includes("viewvideo_video_id_" )){
     const myArr = payload.split("_");
     //videoId = payload[payload.length-1]
     const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/videos/${myArr[myArr.length-1]}`);
@@ -395,7 +395,7 @@ async function handlePostback(senderPsid, receivedPostback) {
   }//end if viewvideo_course_id_
   
   //show all feedback by courseId
-  if(payload.includes("viewcomments_course_id_" && "viewcomments_course_id_".length<payload.length)){
+  if(payload.includes("viewcomments_course_id_" )){
     const myArr = payload.split("_");
     //courseId = payload[payload.length-1]
     const res = await  axios.get(`https://bct-onlinecourses-be.herokuapp.com/reviews/${myArr[myArr.length-1]}`);
